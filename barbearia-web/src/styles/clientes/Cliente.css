@@ -1,0 +1,119 @@
+/* PÁGINAS */
+
+.servicos-page,
+.agendamento-page,
+.horarios-page,
+.dados-page,
+.confirmacao-page {
+  width: min(100% - 40px, var(--page-max-width));
+  min-height: 100dvh;
+
+  margin: 0 auto;
+
+  background: var(--color-bg);
+}
+
+/* BOTÃO VOLTAR */
+
+.servicos-voltar,
+.agendamento-voltar,
+.horarios-voltar,
+.dados-voltar {
+  position: absolute;
+  left: 0;
+
+  width: 40px;
+  height: 40px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-size: 32px;
+  font-weight: 300;
+}
+
+.servicos-voltar:hover,
+.agendamento-voltar:hover,
+.horarios-voltar:hover,
+.dados-voltar:hover {
+  color: var(--color-primary);
+}
+
+/* BOTÕES PRINCIPAIS */
+
+.servicos-continuar,
+.agendamento-continuar,
+.horarios-continuar,
+.dados-confirmar {
+  width: 100%;
+  min-height: 54px;
+
+  border-radius: var(--radius-sm);
+
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+
+  font-size: 13px;
+  font-weight: 800;
+
+  transition:
+    filter var(--transition-default),
+    opacity var(--transition-default),
+    transform 0.15s ease;
+}
+
+.servicos-continuar:hover:not(:disabled),
+.agendamento-continuar:hover:not(:disabled),
+.horarios-continuar:hover:not(:disabled),
+.dados-confirmar:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.servicos-continuar:active:not(:disabled),
+.agendamento-continuar:active:not(:disabled),
+.horarios-continuar:active:not(:disabled),
+.dados-confirmar:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.servicos-continuar:disabled,
+.agendamento-continuar:disabled,
+.horarios-continuar:disabled,
+.dados-confirmar:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* MOBILE ESTREITO */
+
+@media (max-width: 380px) {
+  .servicos-page,
+  .agendamento-page,
+  .dados-page,
+  .confirmacao-page {
+    width: min(100% - 28px, var(--page-max-width));
+  }
+}
+
+@media (max-width: 360px) {
+  .horarios-page {
+    width: min(100% - 28px, var(--page-max-width));
+  }
+}
+
+/* TABLET / DESKTOP */
+
+@media (min-width: 768px) {
+  .servicos-page,
+  .agendamento-page,
+  .horarios-page,
+  .dados-page,
+  .confirmacao-page {
+    min-height: 760px;
+  }
+}

@@ -1,0 +1,148 @@
+.confirmacao-page {
+  padding: 42px 0 30px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* TOPO */
+
+.confirmacao-topo {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+.confirmacao-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 18px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #29964a;
+  color: var(--color-text);
+
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.confirmacao-topo h1 {
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* CARD */
+
+.confirmacao-card {
+  width: 100%;
+  margin-top: 30px;
+  padding: 8px 18px;
+
+  border-radius: var(--radius-md);
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--color-surface-light);
+  color: #171717;
+}
+
+.confirmacao-item {
+  width: 100%;
+  min-height: 72px;
+
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+  gap: 10px;
+
+  border-bottom: 1px solid #dddddd;
+}
+
+.confirmacao-item:last-child {
+  border-bottom: none;
+}
+
+.confirmacao-item-icon {
+  color: #171717;
+  font-size: 20px;
+}
+
+.confirmacao-item > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.confirmacao-item span {
+  color: #555555;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.confirmacao-item strong {
+  color: #171717;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.confirmacao-data {
+  text-transform: capitalize;
+}
+
+/* AVISO */
+
+.confirmacao-aviso {
+  max-width: 290px;
+  margin: 28px auto 0;
+
+  color: #989898;
+
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* BOTÃO */
+
+.confirmacao-voltar {
+  width: 100%;
+  min-height: 52px;
+  margin-top: auto;
+
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-size: 13px;
+  font-weight: 800;
+
+  transition:
+    background var(--transition-default),
+    color var(--transition-default),
+    transform 0.15s ease;
+}
+
+.confirmacao-voltar:hover {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+}
+
+.confirmacao-voltar:active {
+  transform: scale(0.99);
+}

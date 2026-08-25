@@ -1,0 +1,154 @@
+.home {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 34px 26px 38px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.12) 0%,
+      rgba(0, 0, 0, 0.16) 38%,
+      rgba(0, 0, 0, 0.72) 72%,
+      rgba(0, 0, 0, 0.96) 100%
+    ),
+    url('/home-bg.jpg') center / cover no-repeat;
+}
+
+.home-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.08) 65%
+  );
+
+  pointer-events: none;
+}
+
+.home-header,
+.home-content {
+  position: relative;
+  z-index: 1;
+}
+
+.home-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.home-brand-icon {
+  color: var(--color-primary);
+  font-size: 27px;
+  line-height: 1;
+}
+
+.home-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+
+  line-height: 1;
+}
+
+.home-brand-text span {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+}
+
+.home-brand-text strong {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.home-content {
+  width: 100%;
+  margin-top: auto;
+  padding-bottom: 4px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.home-label {
+  margin-bottom: 12px;
+
+  color: var(--color-primary);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.home-content h1 {
+  margin-bottom: 14px;
+
+  font-size: clamp(38px, 11vw, 54px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -1.8px;
+}
+
+.home-content h1 span {
+  color: var(--color-primary);
+}
+
+.home-content p {
+  margin-bottom: 26px;
+
+  color: #d1d1d1;
+
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.home-button {
+  width: 100%;
+  min-height: 54px;
+
+  border-radius: var(--radius-sm);
+
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
+}
+
+.home-button:hover {
+  filter: brightness(1.06);
+}
+
+.home-button:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 768px) {
+  .home {
+    min-height: 760px;
+    border-radius: 18px;
+  }
+
+  .home-content h1 {
+    font-size: 54px;
+  }
+}

@@ -1,0 +1,567 @@
+/* CONTEÚDO */
+
+.admin-agenda-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-detalhes-content,
+.admin-agendamento-info,
+.admin-agenda-vazia,
+.admin-cliente > div:last-child,
+.admin-detalhes-info,
+.admin-detalhes-info > div,
+.admin-detalhes-acoes,
+.admin-bloqueio-form,
+.admin-bloqueio-horarios > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* CABEÇALHO */
+
+.admin-agenda-header {
+  flex-shrink: 0;
+  margin-bottom: 30px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.admin-agenda-label {
+  display: block;
+  margin-bottom: 8px;
+
+  color: var(--color-primary);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.admin-agenda-header h1 {
+  margin-bottom: 12px;
+
+  font-size: 30px;
+  font-weight: 800;
+}
+
+/* DATA */
+
+.admin-agenda-data {
+  width: 100%;
+  max-width: 330px;
+  min-height: 42px;
+
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+}
+
+.admin-agenda-data button {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-size: 26px;
+
+  transition:
+    color var(--transition-default),
+    opacity var(--transition-default);
+}
+
+.admin-agenda-data button:hover:not(:disabled) {
+  color: var(--color-primary);
+}
+
+.admin-agenda-data button:disabled {
+  opacity: 0.22;
+  cursor: default;
+}
+
+.admin-agenda-data span {
+  color: var(--color-text);
+
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* BLOQUEIO */
+
+.admin-bloquear {
+  min-height: 44px;
+  padding: 0 16px;
+
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: var(--color-primary);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  transition:
+    background var(--transition-default),
+    color var(--transition-default);
+}
+
+.admin-bloquear:hover {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+}
+
+/* LISTA */
+
+.admin-agenda-lista {
+  flex: 1;
+  min-height: 0;
+  padding-right: 4px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.admin-agendamento-card {
+  flex-shrink: 0;
+
+  width: 100%;
+  min-height: 72px;
+  padding: 14px 18px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  display: grid;
+  grid-template-columns: 70px 1fr 24px;
+  align-items: center;
+  gap: 14px;
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  text-align: left;
+
+  transition:
+    border-color var(--transition-default),
+    background var(--transition-default);
+}
+
+.admin-agendamento-card:hover {
+  border-color: var(--color-primary);
+  background: #1b1b1b;
+}
+
+.admin-agendamento-horario {
+  color: var(--color-primary);
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.admin-agendamento-info {
+  min-width: 0;
+  gap: 5px;
+}
+
+.admin-agendamento-info strong,
+.admin-agendamento-info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-agendamento-info strong {
+  font-size: 14px;
+}
+
+.admin-agendamento-info span {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.admin-agendamento-status {
+  width: fit-content;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.admin-agendamento-status.pendente {
+  color: var(--color-primary);
+}
+
+.admin-agendamento-status.confirmado {
+  color: #63c982;
+}
+
+.admin-agendamento-seta {
+  color: var(--color-muted);
+  font-size: 24px;
+}
+
+/* ESTADOS */
+
+.admin-agenda-mensagem {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.admin-agenda-vazia {
+  flex-shrink: 0;
+  gap: 6px;
+  padding: 28px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+}
+
+.admin-agenda-vazia strong {
+  font-size: 14px;
+}
+
+.admin-agenda-vazia span {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+/* DETALHES */
+
+.admin-detalhes-content {
+  display: flex;
+}
+
+.admin-detalhes-header {
+  position: relative;
+
+  min-height: 42px;
+  margin-bottom: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-detalhes-header > button {
+  position: absolute;
+  left: 0;
+
+  width: 40px;
+  height: 40px;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-size: 30px;
+}
+
+.admin-detalhes-header > button:hover {
+  color: var(--color-primary);
+}
+
+.admin-detalhes-header h1 {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.admin-detalhes-card {
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 24px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-surface);
+}
+
+.admin-cliente {
+  padding-bottom: 22px;
+
+  border-bottom: 1px solid var(--color-border);
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admin-cliente-avatar {
+  flex-shrink: 0;
+
+  width: 52px;
+  height: 52px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.admin-cliente > div:last-child {
+  gap: 5px;
+}
+
+.admin-cliente strong {
+  font-size: 16px;
+}
+
+.admin-cliente span {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.admin-detalhes-info {
+  margin-top: 10px;
+}
+
+.admin-detalhes-info > div {
+  gap: 4px;
+  padding: 16px 0;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-detalhes-info > div:last-child {
+  border-bottom: none;
+}
+
+.admin-detalhes-info span {
+  color: var(--color-muted);
+  font-size: 11px;
+}
+
+.admin-detalhes-info strong {
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+/* AÇÕES DOS DETALHES */
+
+.admin-detalhes-acoes {
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.admin-detalhes-acoes button {
+  min-height: 50px;
+
+  border-radius: var(--radius-sm);
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.admin-whatsapp {
+  background: #25d366;
+  color: #081c0f;
+}
+
+.admin-whatsapp:hover {
+  filter: brightness(1.05);
+}
+
+/* CONFIRMAÇÃO */
+
+.admin-confirmar-agendamento {
+  border: 1px solid var(--color-primary);
+
+  background: transparent;
+  color: var(--color-primary);
+
+  transition:
+    background var(--transition-default),
+    color var(--transition-default),
+    border-color var(--transition-default),
+    opacity var(--transition-default);
+}
+
+.admin-confirmar-agendamento:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+}
+
+.admin-confirmar-agendamento.confirmado {
+  border-color: #3f8f5a;
+
+  background: rgba(63, 143, 90, 0.12);
+  color: #63c982;
+}
+
+.admin-confirmar-agendamento:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+/* CANCELAMENTO */
+
+.admin-cancelar-agendamento {
+  border: 1px solid #a93636;
+
+  background: transparent;
+  color: #df6a6a;
+}
+
+.admin-cancelar-agendamento:hover {
+  background: #a93636;
+  color: var(--color-text);
+}
+
+/* MODAL DE BLOQUEIO */
+
+.admin-modal {
+  width: min(100%, 420px);
+}
+
+.admin-modal-header {
+  margin-bottom: 18px;
+}
+
+.admin-modal-data {
+  margin-bottom: 22px;
+
+  color: var(--color-muted);
+
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.admin-bloqueio-form {
+  gap: 24px;
+}
+
+.admin-bloqueio-horarios {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.admin-bloqueio-horarios > div {
+  gap: 8px;
+}
+
+.admin-bloqueio-horarios label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-bloqueio-horarios input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 12px;
+
+  border: 1px solid #3a3a3a;
+  border-radius: var(--radius-sm);
+
+  background: #101010;
+  color: var(--color-text);
+
+  color-scheme: dark;
+}
+
+.admin-bloqueio-horarios input:focus {
+  border-color: var(--color-primary);
+}
+
+.admin-modal-acoes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.admin-modal-acoes button {
+  min-height: 48px;
+
+  border-radius: var(--radius-sm);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-modal-cancelar {
+  border: 1px solid var(--color-border);
+
+  background: transparent;
+  color: var(--color-text);
+}
+
+.admin-modal-confirmar {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+}
+
+.admin-modal-confirmar:hover {
+  filter: brightness(1.06);
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .admin-agenda-header {
+    margin-bottom: 28px;
+
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .admin-agenda-header > div,
+  .admin-bloquear {
+    width: 100%;
+  }
+
+  .admin-agenda-header h1 {
+    font-size: 24px;
+  }
+
+  .admin-agenda-data {
+    max-width: none;
+  }
+
+  .admin-agendamento-card {
+    min-height: 68px;
+    padding: 12px 14px;
+
+    grid-template-columns: 58px 1fr 20px;
+  }
+
+  .admin-detalhes-header {
+    justify-content: flex-start;
+    padding-left: 46px;
+  }
+
+  .admin-detalhes-header h1 {
+    font-size: 20px;
+  }
+
+  .admin-detalhes-card {
+    padding: 20px;
+  }
+
+  .admin-bloqueio-horarios {
+    grid-template-columns: 1fr;
+  }
+}

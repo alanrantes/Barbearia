@@ -1,0 +1,359 @@
+/* CONTEÚDO */
+
+.admin-servicos-content,
+.admin-servico-info,
+.admin-servicos-vazio,
+.admin-servico-form,
+.admin-servico-form > div,
+.admin-servico-form-linha > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-servicos-content {
+  overflow: hidden;
+}
+
+/* CABEÇALHO */
+
+.admin-servicos-header {
+  flex-shrink: 0;
+  margin-bottom: 30px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.admin-servicos-label {
+  display: block;
+  margin-bottom: 8px;
+
+  color: var(--color-primary);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.admin-servicos-header h1 {
+  margin-bottom: 8px;
+
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.admin-servicos-header p {
+  color: var(--color-muted);
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-novo-servico {
+  min-height: 44px;
+  padding: 0 16px;
+
+  border-radius: var(--radius-sm);
+
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+
+  font-size: 12px;
+  font-weight: 800;
+
+  transition:
+    filter var(--transition-default),
+    transform 0.15s ease;
+}
+
+.admin-novo-servico:hover {
+  filter: brightness(1.06);
+}
+
+.admin-novo-servico:active {
+  transform: scale(0.99);
+}
+
+/* LISTA */
+
+.admin-servicos-lista {
+  flex: 1;
+  min-height: 0;
+  padding-right: 4px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* CARD */
+
+.admin-servico-card {
+  flex-shrink: 0;
+
+  width: 100%;
+  min-height: 78px;
+  padding: 14px 18px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 16px;
+
+  background: var(--color-surface);
+}
+
+.admin-servico-icon {
+  width: 42px;
+  height: 42px;
+
+  border-radius: var(--radius-sm);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #222;
+  color: var(--color-primary);
+
+  font-size: 22px;
+}
+
+.admin-servico-info {
+  min-width: 0;
+  gap: 5px;
+}
+
+.admin-servico-info strong {
+  overflow: hidden;
+
+  font-size: 14px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-servico-info span {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.admin-servico-preco {
+  color: var(--color-primary);
+
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.admin-servico-editar {
+  min-height: 38px;
+  padding: 0 14px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  transition:
+    border-color var(--transition-default),
+    color var(--transition-default);
+}
+
+.admin-servico-editar:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ESTADOS */
+
+.admin-servicos-mensagem {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.admin-servicos-vazio {
+  gap: 6px;
+  padding: 28px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+}
+
+.admin-servicos-vazio strong {
+  font-size: 14px;
+}
+
+.admin-servicos-vazio span {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+/* MODAL */
+
+.admin-servico-modal {
+  width: min(100%, 430px);
+}
+
+.admin-servico-modal-header {
+  margin-bottom: 22px;
+}
+
+.admin-servico-form {
+  gap: 18px;
+}
+
+.admin-servico-form > div,
+.admin-servico-form-linha > div {
+  gap: 8px;
+}
+
+.admin-servico-form label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-servico-form input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 12px;
+
+  border: 1px solid #3a3a3a;
+  border-radius: var(--radius-sm);
+
+  background: #101010;
+  color: var(--color-text);
+}
+
+.admin-servico-form input:focus {
+  border-color: var(--color-primary);
+}
+
+.admin-servico-form-linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* EXCLUSÃO */
+
+.admin-servico-excluir {
+  min-height: 44px;
+
+  border: 1px solid #a93636;
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: #df6a6a;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  transition:
+    background var(--transition-default),
+    color var(--transition-default);
+}
+
+.admin-servico-excluir:hover {
+  background: #a93636;
+  color: var(--color-text);
+}
+
+/* AÇÕES */
+
+.admin-servico-modal-acoes {
+  margin-top: 6px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.admin-servico-modal-acoes button {
+  min-height: 48px;
+
+  border-radius: var(--radius-sm);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-servico-cancelar {
+  border: 1px solid var(--color-border);
+
+  background: transparent;
+  color: var(--color-text);
+}
+
+.admin-servico-salvar {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+}
+
+.admin-servico-cancelar:hover {
+  border-color: var(--color-muted);
+}
+
+.admin-servico-salvar:hover {
+  filter: brightness(1.06);
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .admin-servicos-header {
+    margin-bottom: 24px;
+
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .admin-servicos-header h1 {
+    font-size: 24px;
+  }
+
+  .admin-novo-servico {
+    width: 100%;
+  }
+
+  .admin-servico-card {
+    padding: 14px;
+
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 12px;
+  }
+
+  .admin-servico-icon {
+    width: 38px;
+    height: 38px;
+
+    font-size: 20px;
+  }
+
+  .admin-servico-preco {
+    font-size: 13px;
+  }
+
+  .admin-servico-editar {
+    grid-column: 2 / 4;
+    width: 100%;
+  }
+
+  .admin-servico-form-linha {
+    grid-template-columns: 1fr;
+  }
+}

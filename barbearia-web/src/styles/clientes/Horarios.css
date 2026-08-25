@@ -1,0 +1,206 @@
+.horarios-page {
+  padding: 38px 0 30px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* CABEÇALHO */
+
+.horarios-header {
+  position: relative;
+  flex-shrink: 0;
+
+  min-height: 58px;
+  margin-bottom: 22px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.horarios-header > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.horarios-header h1 {
+  margin-bottom: 8px;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.horarios-header span {
+  color: #8f8f8f;
+
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+.horarios-voltar {
+  top: 0;
+}
+
+/* HORÁRIOS */
+
+.horarios-lista {
+  width: 100%;
+  max-height: calc(100dvh - 230px);
+  padding: 2px 4px 4px 0;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
+  gap: 12px;
+
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
+}
+
+.horarios-lista::-webkit-scrollbar {
+  width: 4px;
+}
+
+.horarios-lista::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.horarios-lista::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #555;
+}
+
+.horario-item {
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 8px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  font-size: 13px;
+  font-weight: 700;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.horario-item:hover {
+  border-color: var(--color-primary);
+}
+
+.horario-item:active {
+  transform: scale(0.97);
+}
+
+.horario-item.selecionado {
+  border-color: var(--color-primary);
+
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+}
+
+.horario-check {
+  color: inherit;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* ESTADOS */
+
+.horarios-mensagem {
+  grid-column: 1 / -1;
+
+  color: var(--color-muted);
+
+  font-size: 13px;
+}
+
+.horarios-vazio {
+  grid-column: 1 / -1;
+
+  padding: 20px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  background: #181818;
+}
+
+.horarios-vazio strong {
+  font-size: 14px;
+}
+
+.horarios-vazio span {
+  color: var(--color-muted);
+
+  font-size: 12px;
+}
+
+/* BOTÃO */
+
+.horarios-continuar {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+/* CELULARES MAIS BAIXOS */
+
+@media (max-height: 700px) {
+  .horarios-page {
+    padding-top: 24px;
+    padding-bottom: 20px;
+  }
+
+  .horarios-header {
+    margin-bottom: 14px;
+  }
+
+  .horarios-lista {
+    max-height: calc(100dvh - 190px);
+    gap: 9px;
+  }
+
+  .horario-item {
+    min-height: 46px;
+  }
+}
+
+/* CELULARES ESTREITOS */
+
+@media (max-width: 360px) {
+  .horarios-lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* TABLET / DESKTOP */
+
+@media (min-width: 768px) {
+  .horarios-lista {
+    max-height: 520px;
+  }
+}

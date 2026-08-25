@@ -1,0 +1,182 @@
+.servicos-page {
+  padding: 38px 0 30px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* CABEÇALHO */
+
+.servicos-header {
+  position: relative;
+  flex-shrink: 0;
+
+  min-height: 40px;
+  margin-bottom: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.servicos-header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.servicos-voltar {
+  line-height: 1;
+}
+
+/* LISTA */
+
+.servicos-list {
+  width: 100%;
+  max-height: calc(100dvh - 200px);
+  padding-right: 4px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.servicos-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.servicos-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.servicos-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--color-border);
+}
+
+/* CARD */
+
+.servico-card {
+  flex-shrink: 0;
+
+  width: 100%;
+  min-height: 88px;
+  padding: 16px 18px;
+
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+
+  background: #f2f2f2;
+  color: #151515;
+
+  text-align: left;
+
+  transition:
+    border-color var(--transition-default),
+    background var(--transition-default),
+    transform 0.15s ease;
+}
+
+.servico-card:hover {
+  background: var(--color-text);
+}
+
+.servico-card:active {
+  transform: scale(0.99);
+}
+
+.servico-card.selecionado {
+  border-color: var(--color-primary);
+  background: linear-gradient(110deg, #e7bb68, #f4dfb5);
+}
+
+.servico-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-text-dark);
+
+  font-size: 25px;
+}
+
+.servico-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.servico-info strong {
+  overflow: hidden;
+
+  color: #151515;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.servico-info span {
+  color: #555555;
+  font-size: 12px;
+}
+
+.servico-preco {
+  color: #151515;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* BOTÃO */
+
+.servicos-continuar {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+/* MOBILE */
+
+@media (max-width: 380px) {
+  .servico-card {
+    padding: 14px;
+
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .servico-icon {
+    width: 36px;
+    height: 36px;
+
+    font-size: 22px;
+  }
+}
+
+/* TABLET / DESKTOP */
+
+@media (min-width: 768px) {
+  .servicos-list {
+    max-height: 560px;
+  }
+}
