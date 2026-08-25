@@ -11,9 +11,82 @@ namespace Barbearia.Api.Controllers
     {
         private readonly BarbeariaDbContext _context;
 
+        private static readonly TimeZoneInfo FusoHorario =
+            TimeZoneInfo.FindSystemTimeZoneById(
+                OperatingSystem.IsWindows()
+                    ? "E. South America Standard Time"
+                    : "America/Sao_Paulo"
+            );
+
         public AgendamentosController(BarbeariaDbContext context)
         {
             _context = context;
+        }
+
+        private static DateTime AgoraLocal()
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(
+                DateTime.UtcNow,
+                FusoHorario
+            );
+        }
+
+        private static DateTime ParaUtc(DateTime dataHora)
+        {
+            if (dataHora.Kind == DateTimeKind.Utc)
+            {
+                return dataHora;
+            }
+
+            if (dataHora.Kind == DateTimeKind.Local)
+            {
+                return dataHora.ToUniversalTime();
+            }
+
+            return TimeZoneInfo.ConvertTimeToUtc(
+                DateTime.SpecifyKind(
+                    dataHora,
+                    DateTimeKind.Unspecified
+                ),
+                FusoHorario
+            );
+        }
+
+        private static DateTime ParaHorarioLocal(DateTime dataHoraUtc)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(
+                DateTime.SpecifyKind(
+                    dataHoraUtc,
+                    DateTimeKind.Utc
+                ),
+                FusoHorario
+            );
+        }
+
+        private static DateTime InicioDiaUtc(DateTime data)
+        {
+            var inicioLocal = DateTime.SpecifyKind(
+                data.Date,
+                DateTimeKind.Unspecified
+            );
+
+            return TimeZoneInfo.ConvertTimeToUtc(
+                inicioLocal,
+                FusoHorario
+            );
+        }
+
+        private static DateTime FimDiaUtc(DateTime data)
+        {
+            var fimLocal = DateTime.SpecifyKind(
+                data.Date.AddDays(1),
+                DateTimeKind.Unspecified
+            );
+
+            return TimeZoneInfo.ConvertTimeToUtc(
+                fimLocal,
+                FusoHorario
+            );
         }
 
         [HttpGet]
@@ -46,12 +119,14 @@ namespace Barbearia.Api.Controllers
         {
             if (string.IsNullOrWhiteSpace(agendamento.NomeCliente))
             {
-                return BadRequest("O nome do cliente é obrigatório.");
+                return BadRequest(
+                    "O nome do cliente é obrigatório.");
             }
 
             if (string.IsNullOrWhiteSpace(agendamento.TelefoneCliente))
             {
-                return BadRequest("O telefone do cliente é obrigatório.");
+                return BadRequest(
+                    "O telefone do cliente é obrigatório.");
             }
 
             var servico = await _context.Servicos
@@ -61,18 +136,27 @@ namespace Barbearia.Api.Controllers
 
             if (servico == null)
             {
-                return BadRequest("Serviço inválido ou inativo.");
+                return BadRequest(
+                    "Serviço inválido ou inativo.");
             }
 
-            if (agendamento.DataHora <= DateTime.Now)
+            var dataHoraUtc =
+                ParaUtc(agendamento.DataHora);
+
+            var dataHoraLocal =
+                ParaHorarioLocal(dataHoraUtc);
+
+            if (dataHoraLocal <= AgoraLocal())
             {
                 return BadRequest(
                     "Não é possível realizar um agendamento no passado.");
             }
 
-            var configuracaoDia = await _context.HorariosFuncionamento
-                .FirstOrDefaultAsync(h =>
-                    h.DiaSemana == agendamento.DataHora.DayOfWeek);
+            var configuracaoDia =
+                await _context.HorariosFuncionamento
+                    .FirstOrDefaultAsync(h =>
+                        h.DiaSemana ==
+                        dataHoraLocal.DayOfWeek);
 
             if (configuracaoDia == null)
             {
@@ -93,35 +177,42 @@ namespace Barbearia.Api.Controllers
                     "Horário de funcionamento inválido.");
             }
 
-            var inicioExpediente =
-                agendamento.DataHora.Date.Add(
+            var inicioExpedienteLocal =
+                dataHoraLocal.Date.Add(
                     configuracaoDia.HoraInicio.Value);
 
-            var fimExpediente =
-                agendamento.DataHora.Date.Add(
+            var fimExpedienteLocal =
+                dataHoraLocal.Date.Add(
                     configuracaoDia.HoraFim.Value);
 
-            if (agendamento.DataHora < inicioExpediente ||
-                agendamento.DataHora >= fimExpediente)
+            var inicioExpedienteUtc =
+                ParaUtc(inicioExpedienteLocal);
+
+            var fimExpedienteUtc =
+                ParaUtc(fimExpedienteLocal);
+
+            if (dataHoraUtc < inicioExpedienteUtc ||
+                dataHoraUtc >= fimExpedienteUtc)
             {
                 return BadRequest(
                     "Horário fora do expediente.");
             }
 
-            agendamento.DataHoraFim =
-                agendamento.DataHora.AddMinutes(
+            var dataHoraFimUtc =
+                dataHoraUtc.AddMinutes(
                     servico.DuracaoMinutos);
 
-            if (agendamento.DataHoraFim > fimExpediente)
+            if (dataHoraFimUtc > fimExpedienteUtc)
             {
                 return BadRequest(
                     "O serviço ultrapassa o horário de funcionamento.");
             }
 
-            var existeBloqueio = await _context.BloqueiosHorario
-                .AnyAsync(b =>
-                    agendamento.DataHora < b.DataHoraFim &&
-                    agendamento.DataHoraFim > b.DataHoraInicio);
+            var existeBloqueio =
+                await _context.BloqueiosHorario
+                    .AnyAsync(b =>
+                        dataHoraUtc < b.DataHoraFim &&
+                        dataHoraFimUtc > b.DataHoraInicio);
 
             if (existeBloqueio)
             {
@@ -129,10 +220,11 @@ namespace Barbearia.Api.Controllers
                     "Este horário está bloqueado pelo barbeiro.");
             }
 
-            var existeConflito = await _context.Agendamentos
-                .AnyAsync(a =>
-                    agendamento.DataHora < a.DataHoraFim &&
-                    agendamento.DataHoraFim > a.DataHora);
+            var existeConflito =
+                await _context.Agendamentos
+                    .AnyAsync(a =>
+                        dataHoraUtc < a.DataHoraFim &&
+                        dataHoraFimUtc > a.DataHora);
 
             if (existeConflito)
             {
@@ -140,9 +232,12 @@ namespace Barbearia.Api.Controllers
                     "Este horário entra em conflito com outro agendamento.");
             }
 
+            agendamento.DataHora = dataHoraUtc;
+            agendamento.DataHoraFim = dataHoraFimUtc;
             agendamento.Servico = null;
 
             _context.Agendamentos.Add(agendamento);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(
@@ -167,15 +262,19 @@ namespace Barbearia.Api.Controllers
                     "Serviço inválido ou inativo.");
             }
 
-            if (data.Date < DateTime.Today)
+            var dataLocal = data.Date;
+
+            if (dataLocal < AgoraLocal().Date)
             {
                 return BadRequest(
                     "Não é possível consultar horários de uma data passada.");
             }
 
-            var configuracaoDia = await _context.HorariosFuncionamento
-                .FirstOrDefaultAsync(h =>
-                    h.DiaSemana == data.DayOfWeek);
+            var configuracaoDia =
+                await _context.HorariosFuncionamento
+                    .FirstOrDefaultAsync(h =>
+                        h.DiaSemana ==
+                        dataLocal.DayOfWeek);
 
             if (configuracaoDia == null)
             {
@@ -195,49 +294,74 @@ namespace Barbearia.Api.Controllers
                     "Horário de funcionamento inválido.");
             }
 
-            var inicioExpediente =
-                data.Date.Add(configuracaoDia.HoraInicio.Value);
+            var inicioDiaUtc =
+                InicioDiaUtc(dataLocal);
 
-            var fimExpediente =
-                data.Date.Add(configuracaoDia.HoraFim.Value);
+            var fimDiaUtc =
+                FimDiaUtc(dataLocal);
 
-            var agendamentosDoDia = await _context.Agendamentos
-                .Where(a => a.DataHora.Date == data.Date)
-                .ToListAsync();
+            var agendamentosDoDia =
+                await _context.Agendamentos
+                    .Where(a =>
+                        a.DataHora >= inicioDiaUtc &&
+                        a.DataHora < fimDiaUtc)
+                    .ToListAsync();
 
-            var bloqueiosDoDia = await _context.BloqueiosHorario
-                .Where(b => b.DataHoraInicio.Date == data.Date)
-                .ToListAsync();
+            var bloqueiosDoDia =
+                await _context.BloqueiosHorario
+                    .Where(b =>
+                        b.DataHoraInicio >= inicioDiaUtc &&
+                        b.DataHoraInicio < fimDiaUtc)
+                    .ToListAsync();
 
-            var horariosDisponiveis = new List<DateTime>();
+            var inicioExpedienteLocal =
+                dataLocal.Add(
+                    configuracaoDia.HoraInicio.Value);
+
+            var fimExpedienteLocal =
+                dataLocal.Add(
+                    configuracaoDia.HoraFim.Value);
+
+            var horariosDisponiveis =
+                new List<DateTime>();
 
             for (
-                var horario = inicioExpediente;
-                horario.AddMinutes(servico.DuracaoMinutos) <= fimExpediente;
-                horario = horario.AddMinutes(30))
+                var horarioLocal = inicioExpedienteLocal;
+                horarioLocal.AddMinutes(
+                    servico.DuracaoMinutos)
+                    <= fimExpedienteLocal;
+                horarioLocal =
+                    horarioLocal.AddMinutes(30))
             {
-                if (horario <= DateTime.Now)
+                var horarioUtc =
+                    ParaUtc(horarioLocal);
+
+                var horarioFimUtc =
+                    horarioUtc.AddMinutes(
+                        servico.DuracaoMinutos);
+
+                if (horarioUtc <= DateTime.UtcNow)
                 {
                     continue;
                 }
 
-                var horarioFim =
-                    horario.AddMinutes(servico.DuracaoMinutos);
+                var conflito =
+                    agendamentosDoDia.Any(a =>
+                        horarioUtc < a.DataHoraFim &&
+                        horarioFimUtc > a.DataHora);
 
-                var conflito = agendamentosDoDia.Any(a =>
-                    horario < a.DataHoraFim &&
-                    horarioFim > a.DataHora);
-
-                var bloqueado = bloqueiosDoDia.Any(b =>
-                    horario < b.DataHoraFim &&
-                    horarioFim > b.DataHoraInicio);
+                var bloqueado =
+                    bloqueiosDoDia.Any(b =>
+                        horarioUtc < b.DataHoraFim &&
+                        horarioFimUtc >
+                        b.DataHoraInicio);
 
                 if (conflito || bloqueado)
                 {
                     continue;
                 }
 
-                horariosDisponiveis.Add(horario);
+                horariosDisponiveis.Add(horarioUtc);
             }
 
             return Ok(horariosDisponiveis);
@@ -247,19 +371,28 @@ namespace Barbearia.Api.Controllers
         public async Task<ActionResult<IEnumerable<Agendamento>>> ListarAgendamentosPorData(
             DateTime data)
         {
-            var agendamentos = await _context.Agendamentos
-                .Include(a => a.Servico)
-                .Where(a => a.DataHora.Date == data.Date)
-                .OrderBy(a => a.DataHora)
-                .ToListAsync();
+            var inicioUtc = InicioDiaUtc(data);
+            var fimUtc = FimDiaUtc(data);
+
+            var agendamentos =
+                await _context.Agendamentos
+                    .Include(a => a.Servico)
+                    .Where(a =>
+                        a.DataHora >= inicioUtc &&
+                        a.DataHora < fimUtc)
+                    .OrderBy(a => a.DataHora)
+                    .ToListAsync();
 
             return Ok(agendamentos);
         }
 
         [HttpPatch("{id}/confirmar")]
-        public async Task<IActionResult> ConfirmarAgendamento(int id)
+        public async Task<IActionResult> ConfirmarAgendamento(
+            int id)
         {
-            var agendamento = await _context.Agendamentos.FindAsync(id);
+            var agendamento =
+                await _context.Agendamentos
+                    .FindAsync(id);
 
             if (agendamento == null)
             {
@@ -279,16 +412,21 @@ namespace Barbearia.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> CancelarAgendamento(int id)
+        public async Task<IActionResult> CancelarAgendamento(
+            int id)
         {
-            var agendamento = await _context.Agendamentos.FindAsync(id);
+            var agendamento =
+                await _context.Agendamentos
+                    .FindAsync(id);
 
             if (agendamento == null)
             {
                 return NotFound();
             }
 
-            _context.Agendamentos.Remove(agendamento);
+            _context.Agendamentos.Remove(
+                agendamento);
+
             await _context.SaveChangesAsync();
 
             return NoContent();
